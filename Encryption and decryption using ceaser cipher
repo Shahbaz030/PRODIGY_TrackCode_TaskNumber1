@@ -1,0 +1,29 @@
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.backends import default_backend
+
+def caesar_encrypt(message, shift):
+    key = bytes([shift])
+    cipher = Cipher(algorithms.ARC4(key), mode=None, backend=default_backend())
+    encryptor = cipher.encryptor()
+    encrypted_message = encryptor.update(message.encode()) + encryptor.finalize()
+    return encrypted_message
+
+def caesar_decrypt(encrypted_message, shift):
+    key = bytes([shift])
+    cipher = Cipher(algorithms.ARC4(key), mode=None, backend=default_backend())
+    decryptor = cipher.decryptor()
+    decrypted_message = decryptor.update(encrypted_message) + decryptor.finalize()
+    return decrypted_message.decode()
+
+def main():
+    message = input("Enter the message: ")
+    shift = int(input("Enter the shift value: "))
+
+    encrypted_message = caesar_encrypt(message, shift)
+    decrypted_message = caesar_decrypt(encrypted_message, shift)
+
+    print("\nEncrypted Message:", encrypted_message.hex())
+    print("Decrypted Message:", decrypted_message)
+
+if __name__ == "__main__":
+    main()
